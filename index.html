@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +9,43 @@
         crossorigin="anonymous">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- twitter -->
+    <link rel="canonical" href="/web/tweet-button">
+    <link rel="me" href="https://twitter.com/twitterdev">
+    <link rel="stylesheet" href="./style.css">
     <title>Document</title>
 </head>
 
+
+
 <body>
     <div id="app">
-        {{ message }}
+        <navbar-components></navbar-components>
+
+
+        
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5">
+                    One of three columns
+                </div>
+                <div class="col-sm-5">
+
+                    <media-player></media-player>
+
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 
 
@@ -25,13 +56,53 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script src="./components/NavbarComponent.js"></script>
     <script>
+        Vue.component('media-player', {
+            data: function () {
+                return {
+                    fileSrc: ''
+                }
+            },
+            template: `
+            
+                    <div>
+                        <audio controls>
+                            <source src="horse.ogg" type="audio/ogg">
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="share-buttons">
+                            <div id="fb-root"></div>
+                            <div class="fb-share-button" data-href="https://medium.com/datadriveninvestor/stopping-using-console-log-and-start-using-your-browsers-debugger-62bc893d93ff"
+                                data-layout="button_count">
+                            </div>
+                            <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=AudioEnhancer%20rules">
+                                Tweet</a>
+                        </div>
+
+                    </div>
+            
+            `
+        })
+
         var app = new Vue({
             el: '#app',
             data: {
                 message: 'Hello Vue!'
             }
         })
+    </script>
+    <!-- facebook share -->
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
     </script>
 </body>
 
