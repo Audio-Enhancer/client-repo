@@ -1,28 +1,4 @@
 Vue.component('navbar-components', {
-    data: function() {
-        return {
-            islogin: false,
-            inputEmailLogin:'',
-            inputPasswordLogin:''
-
-            
-
-            
-        }
-    },
-    created() {
-        
-    },
-    methods: {
-        login: function() {
-            this.islogin = true;
-        },
-        logout: function() {
-            console.log('hahahha');
-            localStorage.clear();
-            this.islogin = false;
-        }
-    },
     template: `
     
     <div>
@@ -131,7 +107,32 @@ Vue.component('navbar-components', {
             </div>
         </div>
     </div>
-    `
-        
-    
+    `,
+    data: function () {
+        return {
+            islogin: false,
+            inputEmailLogin: '',
+            inputPasswordLogin: ''
+
+
+
+
+        }
+    },
+    created() {
+
+    },
+    methods: {
+        login: function () {
+            this.islogin = true;
+        },
+        logout: function () {
+            console.log('hahahha');
+            localStorage.clear();
+            this.islogin = false;
+        }
+    },
+
+
+
 })
