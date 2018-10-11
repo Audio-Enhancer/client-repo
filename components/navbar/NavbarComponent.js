@@ -148,8 +148,6 @@ Vue.component('navbar-components', {
             });
         },
         logout: function () {
-            console.log('hahahha');
-
             localStorage.clear();
             this.islogin = false;
         }
