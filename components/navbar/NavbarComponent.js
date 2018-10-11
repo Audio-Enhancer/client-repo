@@ -107,6 +107,7 @@ Vue.component('navbar-components', {
         return {
             islogin: false,
             inputEmailLogin: '',
+
             inputPasswordLogin: '',
 
             inputNameRegister: '',
@@ -121,9 +122,13 @@ Vue.component('navbar-components', {
             this.islogin = true;
         }
     },
+    created() {
+
+    },
     methods: {
         login: function () {
             this.islogin = true;
+
             axios({
                 method: 'POST',
                 url: 'http://localhost:3000/users/login',
@@ -143,11 +148,10 @@ Vue.component('navbar-components', {
             });
         },
         logout: function () {
+            console.log('hahahha');
 
             localStorage.clear();
             this.islogin = false;
         }
     }
-
-
 })
