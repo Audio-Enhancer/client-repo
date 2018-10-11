@@ -1,0 +1,9 @@
+.music-container {
+    margin-top: 10%;
+}
+
+.share-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
