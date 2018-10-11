@@ -1,6 +1,4 @@
 Vue.component('navbar-components', {
-
-
     template: `
     
     <div>
@@ -104,29 +102,30 @@ Vue.component('navbar-components', {
         </div>
     </div>
     `,
-    data: function() {
+
+    data: function () {
         return {
             islogin: false,
-            inputEmailLogin:'',
-            inputPasswordLogin:'',
+            inputEmailLogin: '',
+            inputPasswordLogin: '',
 
             inputNameRegister: '',
             inputEmailRegister: '',
             inputPasswordRegister: ''
 
-            
+
         }
     },
     created() {
         if (localStorage.access_token) {;
             this.islogin = true;
-        }   
+        }
     },
     methods: {
-        login: function() {
+        login: function () {
             this.islogin = true;
             axios({
-                method:'POST',
+                method: 'POST',
                 url: 'http://localhost:3000/users/login',
                 data: {
                     email: this.inputEmailLogin,
@@ -135,7 +134,7 @@ Vue.component('navbar-components', {
             }).then((result) => {
                 console.log(result.data);
                 localStorage.access_token = result.data.token;
-                
+
                 this.islogin = true;
 
                 this.$emit('is-login', this.islogin);
@@ -143,12 +142,12 @@ Vue.component('navbar-components', {
                 console.log(err);
             });
         },
-        logout: function() {
-            
+        logout: function () {
+
             localStorage.clear();
             this.islogin = false;
         }
     }
-     
-    
+
+
 })
