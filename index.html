@@ -20,7 +20,7 @@
 
 <body>
     <div id="app">
-        <navbar-components></navbar-components>
+        <navbar-components @is-login='statusLogin'></navbar-components>
 
 
         
@@ -56,7 +56,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <script src="./components/NavbarComponent.js"></script>
+    <script src="./components/navbar/NavbarComponent.js"></script>
     <script>
         Vue.component('media-player', {
             data: function () {
@@ -68,8 +68,7 @@
             
                     <div>
                         <audio controls>
-                            <source src="horse.ogg" type="audio/ogg">
-                            <source src="horse.mp3" type="audio/mpeg">
+                            
                             Your browser does not support the audio element.
                         </audio>
                         <div class="share-buttons">
@@ -89,7 +88,13 @@
         var app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello Vue!'
+                message: 'Hello Vue!',
+                islogin: false
+            },
+            methods: {
+                statusLogin: function(val) {
+                    this.islogin = val;
+                }
             }
         })
     </script>
