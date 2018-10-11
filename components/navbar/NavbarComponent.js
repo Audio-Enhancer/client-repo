@@ -1,28 +1,6 @@
 Vue.component('navbar-components', {
-    data: function() {
-        return {
-            islogin: false,
-            inputEmailLogin:'',
-            inputPasswordLogin:''
 
-            
 
-            
-        }
-    },
-    created() {
-        
-    },
-    methods: {
-        login: function() {
-            this.islogin = true;
-        },
-        logout: function() {
-            console.log('hahahha');
-            localStorage.clear();
-            this.islogin = false;
-        }
-    },
     template: `
     
     <div>
@@ -80,7 +58,7 @@ Vue.component('navbar-components', {
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" class="close" data-dismiss="modal" v-on:click="login">Login</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="login">Login</button>
                     </div>
                 </div>
             </div>
@@ -112,26 +90,65 @@ Vue.component('navbar-components', {
                             </div>
 
                             <div class="form-group">
-                                <label for="email">First name</label>
+                                <label for="email">Name</label>
                                 <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
-                                    placeholder="Enter email" v-model="inputFirstNameRegister">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Last name</label>
-                                <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
-                                    placeholder="Enter email" v-model="inputLastNameRegister">
+                                    placeholder="Enter email" v-model="inputNameRegister">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" class="close" data-dismiss="modal" v-on:click="register">Login</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    `
-        
+    `,
+    data: function() {
+        return {
+            islogin: false,
+            inputEmailLogin:'',
+            inputPasswordLogin:'',
+
+            inputNameRegister: '',
+            inputEmailRegister: '',
+            inputPasswordRegister: ''
+
+            
+        }
+    },
+    created() {
+        if (localStorage.access_token) {;
+            this.islogin = true;
+        }   
+    },
+    methods: {
+        login: function() {
+            this.islogin = true;
+            axios({
+                method:'POST',
+                url: 'http://localhost:3000/users/login',
+                data: {
+                    email: this.inputEmailLogin,
+                    password: this.inputPasswordLogin
+                }
+            }).then((result) => {
+                console.log(result.data);
+                localStorage.access_token = result.data.token;
+                
+                this.islogin = true;
+
+                this.$emit('is-login', this.islogin);
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        logout: function() {
+            
+            localStorage.clear();
+            this.islogin = false;
+        }
+    }
+     
     
 })
