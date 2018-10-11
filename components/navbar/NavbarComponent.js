@@ -113,8 +113,6 @@ Vue.component('navbar-components', {
             inputNameRegister: '',
             inputEmailRegister: '',
             inputPasswordRegister: ''
-
-
         }
     },
     created() {
@@ -148,6 +146,7 @@ Vue.component('navbar-components', {
             });
         },
         logout: function () {
+            console.log('test')
             localStorage.clear();
             this.islogin = false;
         }
