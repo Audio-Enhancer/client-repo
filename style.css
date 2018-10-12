@@ -318,3 +318,15 @@ article:hover {
         transform: translate(19px, 0);
     }
 }
+
+.rightbar-grid {
+    margin-top: 10%;
+}
+
+.rightbar-card {
+    margin-top: 5%;
+}
+
+a:hover {
+    cursor: pointer;
+}
