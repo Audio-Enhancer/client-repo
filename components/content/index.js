@@ -2,9 +2,9 @@ Vue.component('content-component', {
   template: `
      <div class="container">
       <div class="row">
-          <letfBarComponent :listTopList="listTopList" />
-          <contentComponent :searchaudio="searchaudio" @update-top-share="updatTopList"/>
-          <rightBarComponent :islogin="islogin"/>
+          <letfBarComponent :listTopList="listTopList" :islogin="islogin" :responRemove="responRemove" @respon-add-song="responAddSong"/>
+          <contentComponent :searchaudio="searchaudio" @update-top-share="updatTopList" :responRemove="responRemove" :responAdd="responAdd"/>
+          <rightBarComponent :islogin="islogin" @update-remove="updateRemove" :responAdd="responAdd"/>
       </div>
     </div>
   `,
@@ -18,7 +18,9 @@ Vue.component('content-component', {
     return {
       count: 0,
       listTopList: [],
-      responUpdate: ''
+      responUpdate: '',
+      responRemove: '',
+      responAdd: ''
     }
   },
   created() {
@@ -39,6 +41,13 @@ Vue.component('content-component', {
       if (val == true) {
         this.getTopList()
       }
+    },
+    updateRemove: function (val) {
+      this.responRemove = val
+      this.getTopList()
+    },
+    responAddSong: function (val) {
+      this.responAdd = val
     }
   },
   com: {

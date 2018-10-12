@@ -40,7 +40,7 @@ const content = {
     </div>
 
 </div>`,
-  props: ['searchaudio'],
+  props: ['searchaudio', 'responRemove', 'responAdd'],
   data: function () {
     return {
       url: "http://127.0.0.1:8080/",
@@ -170,6 +170,12 @@ const content = {
             console.log(error)
           });
       }
+    },
+    responRemove(val) {
+      this.getAudios()
+    },
+    responAdd(val) {
+      this.getAudios()
     }
   }
 };

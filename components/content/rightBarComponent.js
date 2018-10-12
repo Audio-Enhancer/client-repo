@@ -13,7 +13,7 @@ const rightBar = {
       </div>
     </div>
   `,
-  props: ['islogin'],
+  props: ['islogin', 'responAdd'],
   data: function () {
     return {
       myAudioList: []
@@ -44,24 +44,24 @@ const rightBar = {
         }
       }).then((result) => {
         this.fetchUserAudio();
+        this.$emit('update-remove', id)
       }).catch((err) => {
         console.log(err);
       });
     }
   },
   created() {
-    
-    
+
+
   },
   watch: {
     islogin(val) {
       if (val) {
-        this.fetchUserAudio();
+        this.fetchUserAudio()
       }
+    },
+    responAdd(val) {
+      this.fetchUserAudio()
     }
   }
 }
-
-
-
-
