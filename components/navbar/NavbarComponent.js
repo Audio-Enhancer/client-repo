@@ -116,6 +116,7 @@ Vue.component('navbar-components', {
     created() {
         if (localStorage.access_token) {;
             this.islogin = true;
+            this.$emit('is-login', this.islogin);
         }
     },
     methods: {
@@ -156,6 +157,7 @@ Vue.component('navbar-components', {
         logout: function () {
             localStorage.clear();
             this.islogin = false;
+            this.$emit('is-login', this.islogin);
         }
     }
 })
