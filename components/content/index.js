@@ -20,7 +20,8 @@ Vue.component('content-component', {
       listTopList: [],
       responUpdate: '',
       responRemove: '',
-      responAdd: ''
+      responAdd: '',
+      urlserver: 'https://apiaudioenhancer.efratsadeli.online'
     }
   },
   created() {
@@ -30,7 +31,7 @@ Vue.component('content-component', {
     getTopList: function () {
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/theaudios/topshare',
+        url: `${this.urlserver}/theaudios/topshare`,
       }).then((result) => {
         this.listTopList = result.data.data
       }).catch((err) => {
