@@ -13,11 +13,10 @@ const rightBar = {
       </div>
     </div>
   `,
+  props: ['islogin'],
   data: function () {
     return {
-      myAudioList: [],
-
-      islogin: false
+      myAudioList: []
     }
   },
 
@@ -51,12 +50,16 @@ const rightBar = {
     }
   },
   created() {
-    if (localStorage.access_token) {;
-      this.islogin = true;
-    }
     
-    this.fetchUserAudio();
+    
   },
+  watch: {
+    islogin(val) {
+      if (val) {
+        this.fetchUserAudio();
+      }
+    }
+  }
 }
 
 

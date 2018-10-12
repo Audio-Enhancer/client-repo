@@ -4,7 +4,7 @@ Vue.component('content-component', {
       <div class="row">
           <letfBarComponent/>
           <contentComponent/>
-          <rightBarComponent/>
+          <rightBarComponent :islogin="islogin"/>
       </div>
     </div>
   `,
@@ -13,6 +13,7 @@ Vue.component('content-component', {
     "contentComponent": content,
     "rightBarComponent": rightBar
   },
+  props: ['islogin'],
   data: function () {
     return {
       count: 0
