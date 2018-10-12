@@ -10,21 +10,23 @@ Vue.component('navbar-components', {
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" data-toggle="modal" data-target="#modal-login" v-if="!islogin">Login <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" data-toggle="modal" data-target="#modal-register" v-if="!islogin">Register <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link"  v-if="islogin" v-on:click="logout">Sign out <span class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
+                <span class="navbar-nav mr-auto">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </span>
+                <span class="form-inline my-2 my-lg-0">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" data-toggle="modal" data-target="#modal-login" v-if="!islogin">Login <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" data-toggle="modal" data-target="#modal-register" v-if="!islogin">Register <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link"  v-if="islogin" v-on:click="logout">Sign out <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </span>
             </div>
         </nav>
 
@@ -76,26 +78,23 @@ Vue.component('navbar-components', {
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <label for="email">Email address</label>
-                                <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
-                                    placeholder="Enter email" v-model="inputEmailRegister">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password"
-                                    v-model="inputPasswordRegister">
-                            </div>
-
-                            <div class="form-group">
                                 <label for="email">Name</label>
-                                <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
-                                    placeholder="Enter email" v-model="inputNameRegister">
+                                <input type="text" class="form-control" placeholder="Enter name" v-model="inputNameRegister">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Email</label>
+                                <input type="email" class="form-control" placeholder="Password" v-model="inputEmailRegister">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Password</label>
+                                <input type="password" class="form-control" placeholder="Enter email" v-model="inputPasswordRegister">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="register">Register</button>
                     </div>
                 </div>
             </div>
@@ -107,7 +106,6 @@ Vue.component('navbar-components', {
         return {
             islogin: false,
             inputEmailLogin: '',
-
             inputPasswordLogin: '',
 
             inputNameRegister: '',
@@ -120,13 +118,8 @@ Vue.component('navbar-components', {
             this.islogin = true;
         }
     },
-    created() {
-
-    },
     methods: {
         login: function () {
-            this.islogin = true;
-
             axios({
                 method: 'POST',
                 url: 'http://localhost:3000/users/login',
@@ -135,18 +128,32 @@ Vue.component('navbar-components', {
                     password: this.inputPasswordLogin
                 }
             }).then((result) => {
-                console.log(result.data);
                 localStorage.access_token = result.data.token;
-
                 this.islogin = true;
-
                 this.$emit('is-login', this.islogin);
             }).catch((err) => {
                 console.log(err);
             });
         },
+        register: function () {
+            let data = {
+                name: this.inputNameRegister,
+                email: this.inputEmailRegister,
+                password: this.inputPasswordRegister
+            }
+
+            axios({
+                method: 'POST',
+                url: 'http://localhost:3000/users/register',
+                data
+            }).then((result) => {
+                console.log(result.data);
+            }).catch((err) => {
+                console.log(err.response);
+            });
+
+        },
         logout: function () {
-            console.log('test')
             localStorage.clear();
             this.islogin = false;
         }
