@@ -1,8 +1,7 @@
 const content = {
-    template: `<div class="col-sm-7">
+  template: `<div class="col-sm-7">
     <div id="maincontent">
         <article v-for="(audio, index) in audios" :key="audio._id">
-       
             <div class="cont">
                 <h3>{{ audio.name }}</h3>
                
@@ -12,30 +11,27 @@ const content = {
                 <source type="audio/mpeg" :src='audio.linkmedia'>
             </audio>
             <time>
-                <button class="btn btn-default" v-on:click="like(audio._id)"> <i class="fa fa-thumbs-o-up"></i>
-                    {{ likesCount }}</button>
-                <button class="btn btn-default" v-on:click="unlike(audio._id)"> <i class="fa fa-thumbs-o-down"></i>
-                    {{ unlikesCount }}</button>
+                <button class="btn btn-default" v-on:click="like(audio._id)"> <i class="fa fa-thumbs-o-up">({{ audio.likes.length }})</i></button>
+                <button class="btn btn-default" v-on:click="unlike(audio._id)"> <i class="fa fa-thumbs-o-down">({{ audio.unlikes.length }})</i></button>
                 </time>
             <div class="share-buttons">
-                <div id="fb-root"></div>
-                <div class="fb-share-button" data-href='' data-layout="button_count">
-                </div>
+                <div id="fb-root" @click="shareAudio"></div>
+                <div class="fb-share-button" data-href='' data-layout="button_count" @click="shareAudio(audio._id)"></div>
 
                 <div id="share">
-                    <a class="twitter" v-on:click.prevent="openTwitter">
-                        <i class="fa fa-twitter"></i></a>
+                    <a class="twitter" v-on:click.prevent="openTwitter" @click="shareAudio(audio._id)">
+                    <i class="fa fa-twitter"></i></a>
                 </div>
                 <div id="share">
-                    <a class="googleplus" v-on:click.prevent="openGplus">
+                    <a class="googleplus" v-on:click.prevent="openGplus" @click="shareAudio(audio._id)">
                         <i class="fa fa-google-plus"></i></a>
                 </div>
                 <div id="share">
-                    <a class="linkedin" v-on:click.prevent="openLinkedin">
+                    <a class="linkedin" v-on:click.prevent="openLinkedin" @click="shareAudio(audio._id)">
                         <i class="fa fa-linkedin"></i></a>
                 </div>
                 <div id="share">
-                    <a class="pinterest" v-on:click.prevent="openPinterest">
+                    <a class="pinterest" v-on:click.prevent="openPinterest" @click="shareAudio(audio._id)">
                         <i class="fa fa-pinterest-p"></i></a>
                 </div>
             </div>
@@ -44,173 +40,142 @@ const content = {
     </div>
 
 </div>`,
-    data: function () {
-        return {
-            url: "http://127.0.0.1:8080/",
-            title: "Audio-Enhancher",
-            source: "Audio-Enhancer App",
-            media: "",
-            twit: "",
-            refCount: 0,
-            isLoading: false,
+  props: ['searchaudio', 'responRemove', 'responAdd'],
+  data: function () {
+    return {
+      url: "http://127.0.0.1:8080/",
+      title: "Audio-Enhancher",
+      source: "Audio-Enhancer App",
+      media: "",
+      twit: "",
 
-            liked: false,
-            submitted: false,
-            text: "Like",
 
-            likesCount: 22,
-            unlikesCount: 17,
-            audios: []
-        };
+      audios: []
+    };
+  },
+  created() {
+    this.getAudios();
+  },
+  methods: {
+    openFacebook() {
+      window.open(
+        `https://www.facebook.com/share.php?u=${this.url}&title=${this.title}`,
+        "popup",
+        "width=600,height=600"
+      );
     },
-    created() {
-        axios.interceptors.request.use(
-            config => {
-                this.setLoading(true);
-                return config;
-            },
-            error => {
-                this.setLoading(false);
-                return Promise.reject(error);
-            }
-        );
-
-        axios.interceptors.response.use(
-            response => {
-                this.setLoading(false);
-                return response;
-            },
-            error => {
-                this.setLoading(false);
-                return Promise.reject(error);
-            }
-        );
-
-        this.getAudios();
-    },
-    methods: {
-        openFacebook() {
-            window.open(
-                `https://www.facebook.com/share.php?u=${this.url}&title=${this.title}`,
-                "popup",
-                "width=600,height=600"
-            );
-        },
-        openTwitter() {
-            window.open(
-                `https://twitter.com/intent/tweet?status=${
+    openTwitter() {
+      window.open(
+        `https://twitter.com/intent/tweet?status=${
           this.twit ? this.twit : "http://127.0.0.1:8080/"
         }`,
-                "popup",
-                "width=500,height=300"
-            );
-        },
-        openGplus() {
-            window.open(
-                `https://plus.google.com/share?url=${this.url}`,
-                "popup",
-                "width=400,height=400"
-            );
-        },
-        openLinkedin() {
-            window.open(
-                `https://www.linkedin.com/shareArticle?mini=true&url=${
+        "popup",
+        "width=500,height=300"
+      );
+    },
+    openGplus() {
+      window.open(
+        `https://plus.google.com/share?url=${this.url}`,
+        "popup",
+        "width=400,height=400"
+      );
+    },
+    openLinkedin() {
+      window.open(
+        `https://www.linkedin.com/shareArticle?mini=true&url=${
           this.url
         }&title=${this.title}&source=${this.url}`,
-                "popup",
-                "width=600,height=600"
-            );
-        },
-        openPinterest() {
-            window.open(
-                `https://pinterest.com/pin/create/bookmarklet/?media=${
+        "popup",
+        "width=600,height=600"
+      );
+    },
+    openPinterest() {
+      window.open(
+        `https://pinterest.com/pin/create/bookmarklet/?media=${
           this.media
         }&url=${this.url}&is_video=false&description==${this.title}`,
-                "popup",
-                "width=600,height=700"
-            );
-        },
+        "popup",
+        "width=600,height=700"
+      );
+    },
 
-        setLoading(isLoading) {
-            if (isLoading) {
-                this.refCount++;
-                this.isLoading = true;
-            } else if (this.refCount > 0) {
-                this.refCount--;
-                this.isLoading = this.refCount > 0;
-            }
-        },
+    getAudios() {
 
-        getAudios() {
+      axios
+        .get(`http://localhost:3000/theaudios`, {})
+        .then((response) => {
+          this.audios = response.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
 
-            axios
-                .get(`http://localhost:3000/theaudios`, {})
-                .then((response) => {
-                    this.audios = response.data.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
+    shareAudio(audioId) {
+      axios({
+          method: 'GET',
+          url: `http://localhost:3000/theaudios/share/${audioId}`,
+          headers: {
+            token: localStorage.access_token
+          }
+        })
+        .then((result) => {
+          // console.log(result)
+          this.getAudios()
+          this.$emit('update-top-share', true)
+        }).catch((err) => {
+          console.log(err.response)
+        });
+    },
 
-        like: function (audioId) {
-            this.submitted = true;
+    like: function (audioId) {
 
-            axios
-                .post("http://localhost:3000/theaudios/unlikes/", {
-                    params: {
-                        id: audioId
-                    },
-                    headers: {
-                        token: localStorage.getItem("token")
-                    }
-                })
-                .then(function (response) {
-                    console.log(response);
-                    this.liked = true;
-                    this.submitted = false;
-                    this.text = "Unlike";
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
+      axios({
+          method: 'GET',
+          url: `http://localhost:3000/theaudios/likes/${audioId}`,
+          headers: {
+            token: localStorage.access_token
+          }
+        })
+        .then((result) => {
+          this.getAudios()
+        }).catch((err) => {});
+    },
 
-        unlike: function (audioId) {
-            this.submitted = true;
-
-            axios
-                .post("http://localhost:3000/theaudios/unlikes/", {
-                    params: {
-                        id: audioId
-                    },
-                    headers: {
-                        token: localStorage.getItem("token")
-                    }
-                })
-                .then(function (response) {
-                    console.log(response);
-                    this.liked = false;
-                    this.submitted = false;
-                    this.text = "Like";
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+    unlike: function (audioId) {
+      axios({
+          method: 'GET',
+          url: `http://localhost:3000/theaudios/unlikes/${audioId}`,
+          headers: {
+            token: localStorage.access_token
+          }
+        })
+        .then((result) => {
+          this.getAudios()
+        }).catch((err) => {});
     }
+  },
+  watch: {
+    searchaudio(value) {
+      value = value.trim()
+      if (value == '') {
+        this.getAudios()
+      } else {
+        axios
+          .get(`http://localhost:3000/theaudios/search/${value}`)
+          .then((response) => {
+            this.audios = response.data.data;
+          })
+          .catch(function (error) {
+            console.log(error)
+          });
+      }
+    },
+    responRemove(val) {
+      this.getAudios()
+    },
+    responAdd(val) {
+      this.getAudios()
+    }
+  }
 };
-
-// $('audio').mediaelementplayer({
-//     features: ['playpause', 'progress', 'current', 'tracks', 'fullscreen']
-// });
-
-// <div v-if="isLoading">
-//             <div class="lds-ellipsis">
-//                 <div></div>
-//                 <div></div>
-//                 <div></div>
-//                 <div></div>
-//             </div>
-
-//         </div>

@@ -13,55 +13,56 @@ const rightBar = {
       </div>
     </div>
   `,
-  props: ['islogin'],
-  data: function () {
+  props: ["islogin", "responAdd"],
+  data: function() {
     return {
       myAudioList: []
-    }
+    };
   },
 
   methods: {
     fetchUserAudio() {
       axios({
-        method: 'GET',
+        method: "GET",
         url: `http://localhost:3000/theaudios/myaudios`,
         headers: {
           token: localStorage.access_token
         }
-      }).then((result) => {
-        console.log(result.data.data);
-        this.myAudioList = result.data.data;
-      }).catch((err) => {
-        console.log(err);
-      });
+      })
+        .then(result => {
+          console.log(result.data.data);
+          this.myAudioList = result.data.data;
+        })
+        .catch(err => {
+          // console.log(err);
+        });
     },
     removeAudio(id) {
       axios({
-        method: 'DELETE',
+        method: "DELETE",
         url: `http://localhost:3000/theaudios/${id}`,
         headers: {
           token: localStorage.access_token
         }
-      }).then((result) => {
-        this.fetchUserAudio();
-      }).catch((err) => {
-        console.log(err);
-      });
+      })
+        .then(result => {
+          this.fetchUserAudio();
+          this.$emit("update-remove", id);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
-  created() {
-    
-    
-  },
+  created() {},
   watch: {
     islogin(val) {
       if (val) {
         this.fetchUserAudio();
       }
+    },
+    responAdd(val) {
+      this.fetchUserAudio();
     }
   }
-}
-
-
-
-
+};

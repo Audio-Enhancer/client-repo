@@ -1,17 +1,29 @@
 const leftBar = {
   template: `
     <div class="col-sm-2">
-      <div class="card" style="width: 12rem;">
-        <img class="card-img-top" src="https://via.placeholder.com/350x350" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text"></p>
+      <div v-if="islogin">
+        <div class="card" style="width: 14rem; margin-bottom:20px;">
+          <img class="card-img-top" src="https://via.placeholder.com/350x350" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text"></p>
+          </div>
         </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-bottom:20px;">
+          Add Audio
+        </button>
       </div>
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Add Audio
-      </button>
+
+      <div class="card" style="width: 14rem;">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">TOP SHARE</li>
+          <li class="list-group-item" v-for="(audio, index) in listTopList" :key="index">
+              <span>{{ audio.name }}</span>
+              <span>{{ audio.score }}</span>
+          </li>
+        </ul>
+      </div>
 
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -29,7 +41,7 @@ const leftBar = {
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Title</label>
                 <div class="col-sm-10">
-                  <input type="email" class="form-control" id="inputEmail3" placeholder="Title" v-model="title"> 
+                  <input type="text" class="form-control" id="inputEmail3" placeholder="Title" v-model="title"> 
                 </div>
               </div>
               <div class="form-group row">
@@ -57,6 +69,7 @@ const leftBar = {
       </div>
     </div>
   `,
+  props: ['listTopList', 'islogin'],
   data: function () {
     return {
       title: '',
@@ -80,7 +93,7 @@ const leftBar = {
         .then((result) => {
           axios.post('http://localhost:3000/theaudios/uploads/picture', formdata1)
             .then((image) => {
-              // console.log('ini log dari upload result.data.link', result.data.link);
+              console.log('ini log dari upload result.data.link', result.data.link);
               axios({
                   method: 'post',
                   url: 'http://localhost:3000/theaudios',
@@ -93,8 +106,8 @@ const leftBar = {
                     linkimg: image.data.link
                   }
                 })
-                .then((value) => {
-                  console.log(value);
+                .then((response) => {
+                  this.$emit('respon-add-song', response.data.data._id)
                 })
                 .catch((err) => {
                   console.log(err)
