@@ -1,57 +1,13 @@
 const content = {
     template: `<div class="col-sm-7">
     <div id="maincontent">
-        <div v-if="isLoading">
-            <div class="lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
-        </div><br>
-
-        <article>
-            <div class="cont">
-                <h3>100: Big Ones</h3>
-                <time>JULY 26, 2016</time>
-            </div>
-            <audio class="audio" controls="controls">
-                <source type="audio/mpeg" src="http://media.blubrry.com/codepen_radio/p/codepen-podcast.s3.amazonaws.com/100.mp3?_=1">
-            </audio>
-            <div class="share-buttons">
-                <div id="fb-root"></div>
-                <div class="fb-share-button" data-href="https://medium.com/datadriveninvestor/stopping-using-console-log-and-start-using-your-browsers-debugger-62bc893d93ff"
-                    data-layout="button_count">
-                </div>
-
-                <div id="share">
-                    <a class="twitter" v-on:click.prevent="openTwitter">
-                        <i class="fa fa-twitter"></i></a>
-                </div>
-                <div id="share">
-                    <a class="googleplus" v-on:click.prevent="openGplus">
-                        <i class="fa fa-google-plus"></i></a>
-                </div>
-                <div id="share">
-                    <a class="linkedin" v-on:click.prevent="openLinkedin">
-                        <i class="fa fa-linkedin"></i></a>
-                </div>
-                <div id="share">
-                    <a class="pinterest" v-on:click.prevent="openPinterest">
-                        <i class="fa fa-pinterest-p"></i></a>
-                </div>
-            </div>
-        </article>
-
-
 
         <article v-for="(audio, index) in audios" :key="audio._id">
             <div class="cont">
                 <h3>{{ audio.name }}</h3>
                 <time><button class="btn btn-default" v-on:click="like(audio._id)"> <i class="fa fa-thumbs-o-up"></i>
                         {{ likesCount }}</button>
-                        <button class="btn btn-default" v-on:click="unlike(audio._id)"> <i class="fa fa-thumbs-o-down"></i>
+                    <button class="btn btn-default" v-on:click="unlike(audio._id)"> <i class="fa fa-thumbs-o-down"></i>
                         {{ unlikesCount }}</button></time>
             </div>
             <audio class="audio" controls="controls">
@@ -81,15 +37,7 @@ const content = {
             </div>
         </article>
 
-
-
-
-
-
-
     </div>
-
-
 
 </div>`,
     data: function () {
@@ -195,20 +143,16 @@ const content = {
 
             }]
         },
-        // toggleLike: function (audioId) {
-        //     if (this.liked) {
-        //         this.unlike(audioId)
-        //     } else {
-        //         this.like(audioId)
-        //     }
-        // },
-
+        
         like: function (audioId) {
             this.submitted = true;
 
             axios.post('http://localhost:3000/theaudios/unlikes/', {
                 params: {
                     id:audioId
+                },
+                headers: {
+                    token: localStorage.getItem('token')
                 }
             })
             .then(function (response) {
@@ -230,6 +174,9 @@ const content = {
             axios.post('http://localhost:3000/theaudios/unlikes/', {
                 params: {
                     id:audioId
+                },
+                headers: {
+                    token: localStorage.getItem('token')
                 }
             })
             .then(function (response) {
@@ -271,3 +218,14 @@ const content = {
 // $('audio').mediaelementplayer({
 //     features: ['playpause', 'progress', 'current', 'tracks', 'fullscreen']
 // });
+
+
+// <div v-if="isLoading">
+//             <div class="lds-ellipsis">
+//                 <div></div>
+//                 <div></div>
+//                 <div></div>
+//                 <div></div>
+//             </div>
+
+//         </div>
