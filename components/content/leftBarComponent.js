@@ -66,12 +66,17 @@ const leftBar = {
   },
   methods: {
     addAudio: function () {
+
       let formdata = new FormData()
       let formdata1 = new FormData()
       formdata.append('audiofile', this.audio)
       formdata1.append('picturefile', this.cover)
 
-      axios.post('http://localhost:3000/theaudios/uploads/audio', formdata)
+      axios.post('http://localhost:3000/theaudios/uploads/audio', formdata, {
+          headers: {
+            'token': localStorage.getItem('access_token')
+          }
+        })
         .then((result) => {
           axios.post('http://localhost:3000/theaudios/uploads/picture', formdata1)
             .then((image) => {
@@ -110,7 +115,6 @@ const leftBar = {
       this.cover = link.target.files[0]
       // console.log("ini cover", this.cover);
     },
-
     getAudio(link) {
       this.audio = link.target.files[0]
       // console.log("ini audio", this.audio);
