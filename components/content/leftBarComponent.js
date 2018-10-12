@@ -107,7 +107,11 @@ const leftBar = {
                   }
                 })
                 .then((response) => {
+                  this.title = ''
+                  this.cover = ''
+                  this.audio = ''
                   this.$emit('respon-add-song', response.data.data._id)
+                  $("#exampleModal").modal('hide')
                 })
                 .catch((err) => {
                   console.log(err)

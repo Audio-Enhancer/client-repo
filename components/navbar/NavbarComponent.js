@@ -150,8 +150,13 @@ Vue.component('navbar-components', {
                 url: 'http://localhost:3000/users/register',
                 data
             }).then((result) => {
+                this.inputNameRegister = ''
+                this.inputEmailRegister = ''
+                this.inputPasswordRegister = ''
                 localStorage.access_token = result.data.token;
+                this.islogin = true
                 this.$emit('is-login', this.islogin);
+                $("#modal-register").modal('hide')
             }).catch((err) => {
                 console.log(err.response);
             });
