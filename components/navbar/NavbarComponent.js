@@ -112,7 +112,9 @@ Vue.component('navbar-components', {
             inputEmailRegister: '',
             inputPasswordRegister: '',
 
-            searchbytitle: ''
+            searchbytitle: '',
+
+            urlserver: 'https://apiaudioenhancer.efratsadeli.online'
         }
     },
     created() {
@@ -125,7 +127,7 @@ Vue.component('navbar-components', {
         login: function () {
             axios({
                 method: 'POST',
-                url: 'http://localhost:3000/users/login',
+                url: `${this.urlserver}/users/login`,
                 data: {
                     email: this.inputEmailLogin,
                     password: this.inputPasswordLogin
@@ -147,7 +149,7 @@ Vue.component('navbar-components', {
 
             axios({
                 method: 'POST',
-                url: 'http://localhost:3000/users/register',
+                url: `${this.urlserver}/users/register`,
                 data
             }).then((result) => {
                 this.inputNameRegister = ''

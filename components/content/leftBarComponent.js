@@ -19,7 +19,7 @@ const leftBar = {
         <ul class="list-group list-group-flush">
           <li class="list-group-item">TOP SHARE</li>
           <li class="list-group-item" v-for="(audio, index) in listTopList" :key="index">
-              <span>{{ audio.name }}</span>
+              <span>{{ audio.name }}</span> | 
               <span>{{ audio.score }}</span>
           </li>
         </ul>
@@ -75,6 +75,7 @@ const leftBar = {
       title: '',
       cover: '',
       audio: '',
+      urlserver: 'https://apiaudioenhancer.efratsadeli.online'
     }
   },
   methods: {
@@ -85,18 +86,18 @@ const leftBar = {
       formdata.append('audiofile', this.audio)
       formdata1.append('picturefile', this.cover)
 
-      axios.post('http://localhost:3000/theaudios/uploads/audio', formdata, {
+      axios.post(`${this.urlserver}/theaudios/uploads/audio`, formdata, {
           headers: {
             'token': localStorage.getItem('access_token')
           }
         })
         .then((result) => {
-          axios.post('http://localhost:3000/theaudios/uploads/picture', formdata1)
+          axios.post(`${this.urlserver}/theaudios/uploads/picture`, formdata1)
             .then((image) => {
               console.log('ini log dari upload result.data.link', result.data.link);
               axios({
                   method: 'post',
-                  url: 'http://localhost:3000/theaudios',
+                  url: `${this.urlserver}/theaudios`,
                   headers: {
                     token: localStorage.getItem('access_token')
                   },

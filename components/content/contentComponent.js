@@ -50,7 +50,8 @@ const content = {
       twit: "",
 
 
-      audios: []
+      audios: [],
+      urlserver: 'https://apiaudioenhancer.efratsadeli.online'
     };
   },
   created() {
@@ -102,7 +103,7 @@ const content = {
     getAudios() {
 
       axios
-        .get(`http://localhost:3000/theaudios`, {})
+        .get(`${this.urlserver}/theaudios`, {})
         .then((response) => {
           this.audios = response.data.data;
         })
@@ -114,7 +115,7 @@ const content = {
     shareAudio(audioId) {
       axios({
           method: 'GET',
-          url: `http://localhost:3000/theaudios/share/${audioId}`,
+          url: `${this.urlserver}/theaudios/share/${audioId}`,
           headers: {
             token: localStorage.access_token
           }
@@ -132,7 +133,7 @@ const content = {
 
       axios({
           method: 'GET',
-          url: `http://localhost:3000/theaudios/likes/${audioId}`,
+          url: `${this.urlserver}/theaudios/likes/${audioId}`,
           headers: {
             token: localStorage.access_token
           }
@@ -145,7 +146,7 @@ const content = {
     unlike: function (audioId) {
       axios({
           method: 'GET',
-          url: `http://localhost:3000/theaudios/unlikes/${audioId}`,
+          url: `${this.urlserver}/theaudios/unlikes/${audioId}`,
           headers: {
             token: localStorage.access_token
           }
@@ -162,7 +163,7 @@ const content = {
         this.getAudios()
       } else {
         axios
-          .get(`http://localhost:3000/theaudios/search/${value}`)
+          .get(`${this.urlserver}/theaudios/search/${value}`)
           .then((response) => {
             this.audios = response.data.data;
           })

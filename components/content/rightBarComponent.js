@@ -14,21 +14,22 @@ const rightBar = {
     </div>
   `,
   props: ["islogin", "responAdd"],
-  data: function() {
+  data: function () {
     return {
-      myAudioList: []
+      myAudioList: [],
+      urlserver: 'https://apiaudioenhancer.efratsadeli.online'
     };
   },
 
   methods: {
     fetchUserAudio() {
       axios({
-        method: "GET",
-        url: `http://localhost:3000/theaudios/myaudios`,
-        headers: {
-          token: localStorage.access_token
-        }
-      })
+          method: "GET",
+          url: `${this.urlserver}/theaudios/myaudios`,
+          headers: {
+            token: localStorage.access_token
+          }
+        })
         .then(result => {
           console.log(result.data.data);
           this.myAudioList = result.data.data;
@@ -39,12 +40,12 @@ const rightBar = {
     },
     removeAudio(id) {
       axios({
-        method: "DELETE",
-        url: `http://localhost:3000/theaudios/${id}`,
-        headers: {
-          token: localStorage.access_token
-        }
-      })
+          method: "DELETE",
+          url: `${this.urlserver}/theaudios/${id}`,
+          headers: {
+            token: localStorage.access_token
+          }
+        })
         .then(result => {
           this.fetchUserAudio();
           this.$emit("update-remove", id);
