@@ -22,8 +22,8 @@
 
 <body>
     <div id="app">
-        <navbar-components @is-login='statusLogin'></navbar-components>
-        <content-component :islogin="islogin"></content-component>
+        <navbar-components @is-login='statusLogin' @search-by-title='searchByTitle'></navbar-components>
+        <content-component :islogin="islogin" :searchaudio="searchaudio"></content-component>
     </div>
 
 
@@ -46,11 +46,15 @@
             el: '#app',
             data: {
                 message: 'Hello Vue!',
-                islogin: false
+                islogin: false,
+                searchaudio: ''
             },
             methods: {
                 statusLogin: function (val) {
                     this.islogin = val;
+                },
+                searchByTitle: function (val) {
+                    this.searchaudio = val
                 }
             }
         })

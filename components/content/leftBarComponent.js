@@ -1,7 +1,7 @@
 const leftBar = {
   template: `
     <div class="col-sm-2">
-      <div class="card" style="width: 12rem;">
+      <div class="card" style="width: 14rem; margin-bottom:20px;">
         <img class="card-img-top" src="https://via.placeholder.com/350x350" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
@@ -9,9 +9,21 @@ const leftBar = {
         </div>
       </div>
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-bottom:20px;">
         Add Audio
       </button>
+
+      <br>
+
+      <div class="card" style="width: 14rem;">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">TOP SHARE</li>
+          <li class="list-group-item" v-for="(audio, index) in listTopList" :key="index">
+              <span>{{ audio.name }}</span>
+              <span>{{ audio.score }}</span>
+          </li>
+        </ul>
+      </div>
 
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -57,6 +69,7 @@ const leftBar = {
       </div>
     </div>
   `,
+  props: ['listTopList'],
   data: function () {
     return {
       title: '',

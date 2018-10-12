@@ -11,8 +11,8 @@ Vue.component('navbar-components', {
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <span class="navbar-nav mr-auto">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchbytitle">
+                    <button class="btn btn-outline-success my-2 my-sm-0" @click="search">Search</button>
                 </span>
                 <span class="form-inline my-2 my-lg-0">
                     <ul class="navbar-nav mr-auto">
@@ -110,7 +110,9 @@ Vue.component('navbar-components', {
 
             inputNameRegister: '',
             inputEmailRegister: '',
-            inputPasswordRegister: ''
+            inputPasswordRegister: '',
+
+            searchbytitle: ''
         }
     },
     created() {
@@ -148,7 +150,8 @@ Vue.component('navbar-components', {
                 url: 'http://localhost:3000/users/register',
                 data
             }).then((result) => {
-                console.log(result.data);
+                localStorage.access_token = result.data.token;
+                this.$emit('is-login', this.islogin);
             }).catch((err) => {
                 console.log(err.response);
             });
@@ -158,6 +161,11 @@ Vue.component('navbar-components', {
             localStorage.clear();
             this.islogin = false;
             this.$emit('is-login', this.islogin);
+        },
+        search: function () {
+            this.$emit('search-by-title', this.searchbytitle)
+            this.searchbytitle = ''
+
         }
     }
 })
